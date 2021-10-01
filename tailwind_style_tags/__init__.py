@@ -1,6 +1,6 @@
 from .colors import *
 from .style_tags_v2 import *
-from .style_values import FontWidth as fw, FontScale as fs,  FontFamily as ff, TextAlign as ta, BoxTopo as bt, BoxLayout as bl, BorderRadius as bdr, JustifyContent as jc, JustifyItems as ji, BoxShadow as bs, FlexLayout as flx
+from .style_values import DisplayBox as db, WrapAround as wa, ClearWrap as wc, ObjectFit as of, ObjectPosition as op, Visibility, FlexLayout as flx, JustifyContent as jc, JustifyItems as ji, JustifySelf as js, AlignContent as ac, AlignItems as ai, PlaceContent as pc, PlaceItems as pi, PlaceSelf as ps, FontFamily as ff, FontSize as fz, FontWeight as fw,  LetterSpace as ls, LineHeight as lh, ListItems as li, TextAlign as ta, BackgroundAttachment as ba, BorderRadius as bdr, BorderStyle as bds, BoxShadow as bs, Table as tbl, Outline, BoxTopo as bt, PlacementPosition as pp, BoxSizing as boxsz
 
 
 __version__ = "0.0.1"
