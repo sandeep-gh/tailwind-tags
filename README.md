@@ -15,5 +15,5 @@ A word of caution:
 This library does pollute the namespace of you python file/module, so be careful if using "from tailwind_tags import *". 
 Also, not all construct of tailwind is available here. 
 
-See [style_tags.md] for constructs and valid expression. 
+See [tailwind-tags.md] for constructs and valid expression. 
 
