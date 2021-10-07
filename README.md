@@ -1,6 +1,6 @@
 # Tailwind Tags
-Injects tailwind  constructs into python namespace. User should find a little easier to 
-write and manipulate tailwind style of your webpage. My primary use this module is with JustPy library 
+Injects [tailwind](https://tailwindcss.com/)  constructs into python namespace. User should find little easier to 
+write and manipulate tailwind style of your webpage. My primary use this module is with [JustPy](https://github.com/elimintz/justpy) library 
 a python based web development library/framework. 
 
 So instead of styling a component of with a long string such "bg-pink-400 ring-offset-red-200 justify-content-start text-black-800", using
@@ -15,5 +15,6 @@ A word of caution:
 This library does pollute the namespace of you python file/module, so be careful if using "from tailwind_tags import *". 
 Also, not all construct of tailwind is available here. 
 
-See [tailwind-tags.md] for constructs and valid expression. 
+See (tailwind-tags.md) for constructs and valid expression. 
 
+Developed By: Monallabs.in
