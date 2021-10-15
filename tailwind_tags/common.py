@@ -1,5 +1,5 @@
 from aenum import Enum
-from tailwind_style_tags.colors import _ColorBase
+from .colors import _ColorBase
 
 class TagBase:
     tagstr = None
