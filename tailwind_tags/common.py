@@ -72,11 +72,14 @@ class _IDivExpr:
 
 
 def tstr(*args, prefix=""):
-    if isinstance(args[0], list):
-        raise ValueError("error in tstr argument passing")
+    if len(args) > 0:
+        if isinstance(args[0], list):
+            raise ValueError("error in tstr argument passing")
 
+    #print("=============begin tstr============")
     res = ""
     for arg in args:
+        # print(arg)
         if isinstance(arg, Enum):
             res += f"{prefix}" + arg.value + " "
         if isinstance(arg, _IDivExpr):
@@ -85,7 +88,7 @@ def tstr(*args, prefix=""):
             res += f"{prefix}" + arg.tagstr + " "
         if isinstance(arg, str):
             res += f"{prefix}" + arg + " "
-
+    #print("=============begin tstr============")
     return res.strip()
 
 
