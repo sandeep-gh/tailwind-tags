@@ -36,3 +36,8 @@ print("scale = ", tstr(space/5, space/x/5))
 print("spacing = ", tstr(mr/x/5))
 print("spacing = ", tstr(mr/5))
 print(tstr(space/5))
+
+print(tstr(mr/sl/4))
+
+print(tstr(*[fz.xl, bg/gray/8,  fc/gray/6, ta.center, bt.bd,
+             bdr.md,   pd/1, shdw.md, mr/2, js.center, hover(bg/pink/4)]))

@@ -335,7 +335,7 @@ scroll = _scroll()
 
 
 class _sb(TagBase):
-    tagstr = "b{val}"
+    tagstr = "b-{val}"
     tagops = []
     taghelp = "bottom"
 
@@ -344,7 +344,7 @@ sb = _sb()
 
 
 class _sl(TagBase):
-    tagstr = "left-{val}"
+    tagstr = "l-{val}"
     tagops = []
     taghelp = "left"
 
@@ -353,7 +353,7 @@ sl = _sl()
 
 
 class _sr(TagBase):
-    tagstr = "r{val}"
+    tagstr = "r-{val}"
     tagops = []
     taghelp = "right"
 
@@ -362,7 +362,7 @@ sr = _sr()
 
 
 class _st(TagBase):
-    tagstr = "top-{val}"
+    tagstr = "t-{val}"
     tagops = []
     taghelp = "top"
 

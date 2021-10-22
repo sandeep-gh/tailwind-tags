@@ -75,19 +75,19 @@ def tstr(*args, prefix=""):
     res = ""
     for arg in args:
         if isinstance(arg, Enum):
-            res += f"{prefix} " + arg.value
+            res += f"{prefix}" + arg.value + " "
         if isinstance(arg, _IDivExpr):
-            res += f"{prefix} " + arg.evaluate()
+            res += f"{prefix}" + arg.evaluate() + " "
         if isinstance(arg, TagBase):
-            res += f"{prefix} " + arg.tagstr
+            res += f"{prefix}" + arg.tagstr + " "
         if isinstance(arg, str):
-            res += f"{prefix} " + arg
+            res += f"{prefix}" + arg + " "
 
     return res
 
 
 def hover(*args):
-    return tstr(*args, "hover:")
+    return tstr(*args, prefix="hover:")
 
 
 def variant(rv, *args):
