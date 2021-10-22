@@ -83,7 +83,7 @@ def tstr(*args, prefix=""):
         if isinstance(arg, str):
             res += f"{prefix}" + arg + " "
 
-    return res
+    return res.strip()
 
 
 def hover(*args):
