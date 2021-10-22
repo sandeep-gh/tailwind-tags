@@ -1,11 +1,11 @@
 from aenum import Enum
 from .colors import _ColorBase
 
+
 class TagBase:
     tagstr = None
     tagops = None
     taghelp = None
-
 
     @classmethod
     def __truediv__(cls, valprefix):
@@ -14,13 +14,11 @@ class TagBase:
         # if isinstance(valprefix, TagBase) or isinstance(valprefix, _ColorBase):
         #     return _IDivExpr(cls.tagstr, valprefix)
         # return _IDivExpr(cls, valprefix)
-        
+
     @classmethod
     def evaluate(cls, val):
         fres = cls.tagstr.format(val=val)
         return cls.tagstr.format(val=val)
-
-
 
 
 class _IDivExpr:
@@ -40,36 +38,39 @@ class _IDivExpr:
         # return _IDivExpr(self, arg)
 
     def evaluate(self, val=""):
-        #print ("eval = ", self, " ", self.tagstr, " ", self.arg2, " " , val)
+        #print("eval = ", self, " ", self.tagstr, " ", self.arg2, " ", val)
         #print ("eval = ", self, " ", type(self.tagstr), " ", type(self.arg2), " ", val)
 
         if isinstance(self.tagstr, _IDivExpr) and isinstance(self.arg2, TagBase):
             return self.tagstr.evaluate(self.arg2.evaluate(val))
-        if isinstance(self.tagstr, _IDivExpr) and ( isinstance(self.arg2, int) or isinstance(self.arg2, str)):
+        if isinstance(self.tagstr, _IDivExpr) and (isinstance(self.arg2, int) or isinstance(self.arg2, str)):
             return self.tagstr.evaluate(str(self.arg2))
         if isinstance(self.tagstr, _IDivExpr) and isinstance(self.arg2, _ColorBase):
             aval = self.arg2.__truediv__(val)
             return self.tagstr.evaluate(val=aval)
-        if isinstance(self.tagstr, str) and (isinstance(self.arg2, TagBase) or isinstance(self.arg2, _ColorBase) ):
-            #print (self, " ", "here")
+        if isinstance(self.tagstr, str) and (isinstance(self.arg2, TagBase) or isinstance(self.arg2, _ColorBase)):
             ares = self.arg2.evaluate(val)
             #print ("phere = ", ares, self.tagstr)
             op = self.tagstr.format(val=ares)
-            #print ("op = ", op)
             return self.tagstr.format(val=ares)
-            
+
         if isinstance(self.tagstr, str) and (isinstance(self.arg2, int) or isinstance(self.arg2, str)):
-            return self.tagstr.format(val=str(self.arg2))
-        print ("evaluate: unkown case ", type(self.tagstr), " ", type(self.arg2), " ", val)
-        print ("evaluate: unkown case ", self.tagstr, " ", self.arg2, " ", val)
+            # this can introduce double ; need a more logicial strategy
+            tmp = self.tagstr.format(val="-" + str(self.arg2))
+            return tmp.replace("--", "-")
+
+        print("evaluate: unkown case ", type(
+            self.tagstr), " ", type(self.arg2), " ", val)
+        print("evaluate: unkown case ", self.tagstr, " ", self.arg2, " ", val)
         assert(0)
-            
 
     # def __repr__(self):
     #     rstr = self.evaluate()
     #     if rstr[-1] == "-":
     #         rstr = rstr[0:-1]
     #     return rstr
+
+
 def tstr(*args, prefix=""):
     res = ""
     for arg in args:
@@ -81,7 +82,7 @@ def tstr(*args, prefix=""):
             res += f"{prefix} " + arg.tagstr
         if isinstance(arg, str):
             res += f"{prefix} " + arg
-            
+
     return res
 
 

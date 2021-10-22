@@ -1,0 +1,38 @@
+from tailwind_tags import *
+
+
+r = resize/x/5
+res = r.evaluate()
+print(res)
+
+
+clss = tstr(tbl.fixed, bds.collapse, bds.separate)
+print(clss)
+
+print(tstr(opacity/40))
+
+print(tstr(pink/4))
+print(tstr(offset/pink/4))
+
+clss = tstr(ring/offset/pink/4)
+print(clss)
+exp = mr/x/auto
+res = exp.evaluate()
+print(res)
+clss = tstr(ring/offset/pink/4, duration/5, resize/5, ring/5)
+print(clss)
+clss = tstr(bd/st/5, bg/pink/5, ph/opacity/5, text/opacity/5)
+print(clss)
+
+clss = tstr(min/H/5)
+print(clss)
+
+print(tstr(container))
+
+print(tstr(W/5))
+
+print("scale = ", tstr(space/5, space/x/5))
+
+print("spacing = ", tstr(mr/x/5))
+print("spacing = ", tstr(mr/5))
+print(tstr(space/5))
