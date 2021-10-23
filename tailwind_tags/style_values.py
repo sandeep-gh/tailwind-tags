@@ -28,6 +28,7 @@ import tailwind_tags.colors as colors
 # hidden	display: none;                                #
 ###############################################################
 
+
 class DisplayBox(Enum):
     b = "block"
     bi = "inline-block"
@@ -183,12 +184,14 @@ class FontFamily(Enum):
 class FontSize(Enum):
     xs = "text-xs"
     sm = "text-sm"
-    bs = "text-base"
+    _ = "text-base"
     lg = "text-lg"
     xl = "text-xl"
     xl2 = "text-2xl"
     xl3 = "text-3xl"
-
+    xl4 = "text-4xl"
+    xl5 = "text-5xl"
+    xl6 = "text-6xl"
     # TBD ixl
     pass
 
@@ -311,9 +314,9 @@ class Table(Enum):
 
 
 class Outline(Enum):
-    n = "none"
-    w = "white"
-    b = "black"
+    n = "outline-none"
+    w = "outline-white"
+    b = "outline-black"
 
 
 # TBD: user-select, fill-current, stroke, stroke-width, screen-readers, typography(proces),
