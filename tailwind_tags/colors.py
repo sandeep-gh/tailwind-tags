@@ -15,6 +15,11 @@ class _ColorBase:
         return f"{cls.mycolor}-{colorval}00"
         pass
 
+    @classmethod
+    def keyvaleval(cls, colorval):
+        return ("_color", f"{cls.mycolor}-{colorval}00")
+
+
     @ classmethod
     def __pow__(cls, colorval):
         return f"{cls.mycolor}-{colorval}00"
