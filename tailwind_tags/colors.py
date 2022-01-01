@@ -19,7 +19,6 @@ class _ColorBase:
     def keyvaleval(cls, colorval):
         return ("_color", f"{cls.mycolor}-{colorval}00")
 
-
     @ classmethod
     def __pow__(cls, colorval):
         return f"{cls.mycolor}-{colorval}00"
@@ -52,3 +51,13 @@ for cc in _twccd.keys():
         for i in range(1, 10):
             rn = onetonine[i]
             twcc2hex[cc][rn] = _twccd[cc][f"{i}00"]
+
+
+def color2hex(twcc):
+    basecolor, scale = twcc.split("-")
+    if basecolor in _twccd.keys():
+        if scale in _twccd[basecolor]:
+            return _twccd[basecolor][scale]
+        raise ValueError(f"{scale} not found in _twccd",
+                         _twccd[basecolor].keys())
+    raise ValueError
