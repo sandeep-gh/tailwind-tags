@@ -23,11 +23,11 @@ class TagBase:
         return cls.tagstr.format(val=val)
 
     @classmethod
-    def keyvaleval(cls, val):
+    def keyvaleval(cls):
         # fres = cls.tagstr.format(val=val)
         # key = cls.tagstr.replace("{val}", "")
         # key = key.replace("-", "")
-        return (cls.elabel,  val)
+        return (cls.elabel,  cls.elabel)
 
 
 class _IDivExpr:
@@ -88,9 +88,13 @@ class _IDivExpr:
             # print("C")
             aval = self.arg2.__truediv__(val)
             return self.tagstr.evaluate(val=aval)
-        if isinstance(self.tagstr, str) and (isinstance(self.arg2, TagBase) or isinstance(self.arg2, _ColorBase)):
+        if isinstance(self.tagstr, str) and isinstance(self.arg2, TagBase):
             # print("D")
-            return (self.elabel, self.arg2.keyvaleval(val))
+            return (self.elabel, self.arg2.keyvaleval())  # looks suspicious
+
+        if isinstance(self.tagstr, str) and isinstance(self.arg2, _ColorBase):
+            # print("D")
+            return (self.elabel, self.arg2.keyvaleval(val))  # looks suspicious
 
         if isinstance(self.tagstr, str) and (isinstance(self.arg2, int) or isinstance(self.arg2, str)):
             # this can introduce double ; need a more logicial strategy
