@@ -246,6 +246,15 @@ class TextAlign(Enum):
     justify = "text-justify"
     pass
 
+
+class VerticalAlign(Enum):
+    top = "align-top"
+    middle = "align-middle"
+    bottom = "align-bottom"
+    # few others left out
+
+    pass
+
 # TBD docs/text-decoratio
 # TBD docs/text-transform
 # TBD docs/text-overflow
