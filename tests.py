@@ -1,10 +1,64 @@
 from tailwind_tags import *
+import tailwind_tags as tt
+#res = get_styReport(text/gray/6, mr/sb/2, mr/x/auto, W/6, G/cols/6)
+from addict import Dict
+res = get_styReport(mr/4)
 
-res = get_styReport(pd/5, resize/x/5, mr/st/4,  fw.normal)
+
 # r = fw.normal #pd/5  # resize/x/5
 # res = r.keyvaleval()
 print(res)
+# dictionary from class name to abbrv used in
+# styval_dict = Dict()
 
+# for varn in dir():
+#     try:
+#         module = getattr(tt, varn)
+#         styval_dict[module.__name__] = varn
+#     except:
+
+#         pass
+
+
+# def styreport_resolvekv(key, val):
+#     """
+#     resolve json expression of type : key'ObjectPosition': {'_val': 't'}}
+
+#     """
+#     if key in styval_dict:
+#         abbrv = styval_dict[key]
+#         return f"{abbrv}.{val['_val']}"
+
+#     elif '_val' in val:
+#         return f"{key}/{val['_val']}"
+#     elif '_color' in val:
+#         colstr = val._color._val
+#         cc, cv = colstr.replace("00", ""). split(
+#             "-")  # gray-400 --> gray, 400"
+
+#         return f"{key}/{cc}/{cv}"
+#     elif len(val.items()) == 1:  # case: pd/x/4==> pd {'x': {'_val': '4'}}
+#         [k, v] = list(val.items())[0]
+#         return f"{key}/{k}/{v._val}"
+#     else:
+
+#         print("unable to resolve ", key, val, len(val.items()))
+#         raise ValueError
+
+
+# def styreport_resolve(styreport):
+#     """
+#     styreport: a dictionary
+#     """
+#     res = []
+#     for k, v in styreport.items():
+#         if '_val' in v or '_color' in v or len(v.items()) == 1:
+#             res.append(styreport_resolvekv(k, v))
+#         else:
+#             print("no resolved ", k, v)
+#             raise ValueError
+#     res.append(*res.passthrough)
+#     return res
 
 # clss = tstr(tbl.fixed, bds.collapse, bds.separate)
 # print(clss)

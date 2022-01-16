@@ -124,7 +124,7 @@ class _fc(TagBase):
     tagstr = "text-{val}"
     tagops = []
     taghelp = "font color"
-    elabel = "text"
+    elabel = "fc"
 
 
 fc = _fc()
@@ -154,7 +154,7 @@ class _G(TagBase):
     tagstr = "grid-{val}"
     tagops = []
     taghelp = "grid attributes"
-    elabel = "grid"
+    elabel = "G"
 
 
 G = _G()
@@ -164,7 +164,7 @@ class _H(TagBase):
     tagstr = "h-{val}"
     tagops = ['screen']
     taghelp = ""
-    elabel = "h"
+    elabel = "H"
 
 
 H = _H()
@@ -464,7 +464,7 @@ class _W(TagBase):
     tagstr = "w-{val}"
     tagops = []
     taghelp = "element width"
-    elabel = "w"
+    elabel = "W"
 
 
 W = _W()
