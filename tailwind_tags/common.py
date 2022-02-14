@@ -1,3 +1,4 @@
+import sys
 from aenum import Enum
 from .colors import _ColorBase
 from addict import Dict
@@ -52,8 +53,11 @@ class _IDivExpr:
 
     def evaluate(self, val=""):
         #print("eval = ", self, " ", self.tagstr, " ", self.arg2, " ", val)
-        #print ("eval = ", self, " ", type(self.tagstr), " ", type(self.arg2), " ", val)
+        # print("eval = ", " ", type(self.tagstr),
+        #       " ", type(self.arg2), " ", val)
 
+        if isinstance(self.tagstr, str) and isinstance(self.arg2, _IDivExpr):
+            return self.tagstr.format(val=self.arg2.evaluate(val))
         if isinstance(self.tagstr, _IDivExpr) and isinstance(self.arg2, TagBase):
             return self.tagstr.evaluate(self.arg2.evaluate(val))
         if isinstance(self.tagstr, _IDivExpr) and (isinstance(self.arg2, int) or isinstance(self.arg2, str)):
@@ -82,26 +86,19 @@ class _IDivExpr:
         #print ("eval = ", self, " ", type(self.tagstr), " ", type(self.arg2), " ", val)
         #print("calling keyvaleval ", self)
         if isinstance(self.tagstr, _IDivExpr) and isinstance(self.arg2, TagBase):
-            # print("A")
             return self.tagstr.evaluate(self.arg2.keyvaleval(val))
         if isinstance(self.tagstr, _IDivExpr) and (isinstance(self.arg2, int) or isinstance(self.arg2, str)):
-            #print("B", self.arg2, "--", val)
             return self.tagstr.keyvaleval(str(self.arg2))
         if isinstance(self.tagstr, _IDivExpr) and isinstance(self.arg2, _ColorBase):
-            # print("C")
             aval = self.arg2.__truediv__(val)
             return self.tagstr.evaluate(val=aval)
         if isinstance(self.tagstr, str) and isinstance(self.arg2, TagBase):
-            #print("D", self.elabel, "-", self.tagstr, "-", self.arg2, "-", val)
             return (self.elabel, self.arg2.keyvaleval(val))  # looks suspicious
 
         if isinstance(self.tagstr, str) and isinstance(self.arg2, _ColorBase):
-            #print("E ", self.tagstr, " ", self.elabel)
             return (self.elabel, self.arg2.keyvaleval(val))  # looks suspicious
 
         if isinstance(self.tagstr, str) and (isinstance(self.arg2, int) or isinstance(self.arg2, str)):
-            # this can introduce double ; need a more logicial strategy
-            # print("F")
             return (self.elabel, self.arg2)
 
         print("evaluate: unkown case ", type(
@@ -124,7 +121,6 @@ def tstr(*args, prefix=""):
     #print("=============begin tstr============")
     res = ""
     for arg in args:
-        # print(arg)
         if isinstance(arg, Enum):
             res += f"{prefix}" + arg.value + " "
         if isinstance(arg, _IDivExpr):
@@ -135,44 +131,6 @@ def tstr(*args, prefix=""):
             res += f"{prefix}" + arg + " "
     #print("=============begin tstr============")
     return res.strip()
-
-# ============== from tstr expression to json report ==============
-
-
-def get_styReport(*args, prefix=""):
-    if len(args) > 0:
-        if isinstance(args[0], list):
-            raise ValueError("error in tstr argument passing")
-
-    #print("=============begin tstr============")
-    res = Dict()
-    res.passthrough = []
-    for arg in args:
-        # print(arg)
-        if isinstance(arg, Enum):
-            # print("R")
-            res[arg.__class__.__name__]['_val'] = arg.name
-        if isinstance(arg, _IDivExpr):
-            kv = arg.keyvaleval()
-            if isinstance(kv[1], tuple):
-                if isinstance(kv[1][1], tuple):
-                    print("get_styReport:Warning: too many nested tuple = ", arg)
-                    raise ValueError
-                else:
-                    res[kv[0]][kv[1][0]]['_val'] = kv[1][1]
-            else:
-                res[kv[0]]['_val'] = kv[1]
-        if isinstance(arg, TagBase):
-            # print("G")
-            kv = arg.keyvaleval()
-            res[kv[0]]['_val'] = kv[1]
-        if isinstance(arg, str):
-            print("get_styReport:Warning: skipping sty attr = ", arg)
-            res.passthrough.append(arg)
-    #print("=============begin tstr============")
-    return res
-
-# ================================ end ===============================
 
 
 def hover(*args):
@@ -185,58 +143,3 @@ def variant(rv, *args):
 
     """
     return tstr(*args, str(rv))
-
-
-# ============== from json styreport to tstr expression ==============
-styval_dict = Dict()
-for varn in dir():
-    try:
-        module = getattr(tt, varn)
-        styval_dict[module.__name__] = varn
-    except:
-
-        pass
-
-
-def styreport_resolvekv(key, val):
-    """
-    resolve json expression of type : key'ObjectPosition': {'_val': 't'}}
-
-    """
-    if key in styval_dict:
-        abbrv = styval_dict[key]
-        return f"{abbrv}.{val['_val']}"
-
-    elif '_val' in val:
-        return f"{key}/{val['_val']}"
-    elif '_color' in val:
-        colstr = val._color._val
-        cc, cv = colstr.replace("00", ""). split(
-            "-")  # gray-400 --> gray, 400"
-
-        return f"{key}/{cc}/{cv}"
-    elif len(val.items()) == 1:  # case: pd/x/4==> pd {'x': {'_val': '4'}}
-        [k, v] = list(val.items())[0]
-        return f"{key}/{k}/{v._val}"
-    else:
-
-        print("unable to resolve ", key, val, len(val.items()))
-        raise ValueError
-
-
-def styreport_resolve(styreport):
-    """
-    styreport: a dictionary
-    """
-    res = []
-    for k, v in styreport.items():
-        if k == "passthrough":
-            if v:
-                res.append(*v)
-        elif '_val' in v or '_color' in v or len(v.items()) == 1:
-            res.append(styreport_resolvekv(k, v))
-        else:
-            print("no resolved ", k, v)
-            raise ValueError
-    return res
-# ================================ end ===============================

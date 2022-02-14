@@ -1,3 +1,7 @@
+"""shorthand for some style directives
+if they can be uniquely defined"
+xl3 as 
+"""
 from .style_values import FontWeight as fw, BoxShadow as shdw, LineHeight as lh, FontSize as fz
 bold = fw.bold
 shadow = shdw._

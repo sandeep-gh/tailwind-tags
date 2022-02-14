@@ -1,3 +1,4 @@
+import sys
 from tailwind_tags.common import TagBase
 
 
@@ -478,3 +479,15 @@ class _zo(TagBase):
 
 
 zo = _zo()
+
+
+current_module = sys.modules[__name__]
+styTagDict = {}
+for varName in dir():
+    try:
+        res = getattr(current_module, varName)
+        styTagDict[varName] = res
+
+    except:
+
+        pass

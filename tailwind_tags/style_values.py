@@ -1,3 +1,4 @@
+import sys
 from aenum import Enum
 import tailwind_tags.colors as colors
 
@@ -352,3 +353,15 @@ class PlacementPosition(Enum):
 class BoxSizing(Enum):
     b = "box-border"
     c = "box-content"
+
+
+current_module = sys.modules[__name__]
+styValueDict = {}
+for varName in dir():
+    try:
+        res = getattr(current_module, varName)
+        styValueDict[varName] = res
+
+    except:
+
+        pass
