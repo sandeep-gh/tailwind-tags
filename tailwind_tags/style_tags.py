@@ -2,24 +2,14 @@ import sys
 from tailwind_tags.common import TagBase
 
 
-class _auto(TagBase):
-    tagstr = "auto"
+class _sw(TagBase):
+    tagstr = "shadow-{val}"
     tagops = []
     taghelp = ""
-    elabel = "auto"
+    elabel = "shadow"
 
 
-auto = _auto()
-
-
-class _bg(TagBase):
-    tagstr = "bg-{val}"
-    tagops = []
-    taghelp = "background color"
-    elabel = "bg"
-
-
-bg = _bg()
+sw = _sw()
 
 
 class _bd(TagBase):
@@ -32,26 +22,6 @@ class _bd(TagBase):
 bd = _bd()
 
 
-class _col(TagBase):
-    tagstr = "col-{val}"
-    tagops = []
-    taghelp = ""
-    elabel = "col"
-
-
-col = _col()
-
-
-class _cols(TagBase):
-    tagstr = "cols-{val}"
-    tagops = []
-    taghelp = ""
-    elabel = "cols"
-
-
-cols = _cols()
-
-
 class _cc(TagBase):
     tagstr = ""
     tagops = []
@@ -61,44 +31,25 @@ class _cc(TagBase):
 cc = _cc()
 
 
-class _container(TagBase):
-    tagstr = "container"
-    tagops = []
-    taghelp = ""
-    elabel = "container"
+_tw_keywords = ["container", "inherit",
+                "current", "transparent", "black", "white", "first", "full", "screen", "hidden", "last", "none", "scroll", "span", "text", "visible", "auto", "group"]
+
+for kw in _tw_keywords:
+    globals()[f"_{kw}"] = type(f"_{kw}", (TagBase,),
+
+                               {'tagstr': kw, "tagops": [], "taghelp": "", "elabel": kw})
+
+    globals()[kw] = globals()[f"_{kw}"]()
 
 
-container = _container()
+_tw_keywords_val = ["bg", "x", "y", "duration", "inset",
+                    "max", "min", "offset", "opacity", "order", "ring", "row", "rows", "col", "cols", "space", "span", "stroke"]
+for kw in _tw_keywords_val:
+    globals()[f"_{kw}"] = type(f"_{kw}", (TagBase,),
 
+                               {'tagstr': f"{kw}-{{val}}", "tagops": [], "taghelp": "", "elabel": kw})
 
-class _x(TagBase):
-    tagstr = "x-{val}"
-    tagops = []
-    taghelp = "x-dir"
-    elabel = "x"
-
-
-x = _x()
-
-
-class _y(TagBase):
-    tagstr = "y-{val}"
-    tagops = []
-    taghelp = "y-dir"
-    elabel = "y"
-
-
-y = _y()
-
-
-class _duration(TagBase):
-    tagstr = "duration-{val}"
-    tagops = []
-    taghelp = ""
-    elabel = "duration"
-
-
-duration = _duration()
+    globals()[kw] = globals()[f"_{kw}"]()
 
 
 class _end(TagBase):
@@ -111,16 +62,6 @@ class _end(TagBase):
 end = _end()
 
 
-class _first(TagBase):
-    tagstr = "first"
-    tagops = []
-    taghelp = ""
-    elabel = "first"
-
-
-first = _first()
-
-
 class _fc(TagBase):
     tagstr = "text-{val}"
     tagops = []
@@ -129,26 +70,6 @@ class _fc(TagBase):
 
 
 fc = _fc()
-
-
-class _full(TagBase):
-    tagstr = "full"
-    tagops = []
-    taghelp = ""
-    elabel = "full"
-
-
-full = _full()
-
-
-class _gap(TagBase):
-    tagstr = "gap-{val}"
-    tagops = []
-    taghelp = ""
-    elabel = "gap"
-
-
-gap = _gap()
 
 
 class _G(TagBase):
@@ -169,36 +90,7 @@ class _H(TagBase):
 
 
 H = _H()
-
-
-class _hidden(TagBase):
-    tagstr = "hidden"
-    tagops = []
-    taghelp = ""
-    elabel = "hidden"
-
-
-hidden = _hidden()
-
-
-class _inset(TagBase):
-    tagstr = "inset-{val}"
-    tagops = []
-    taghelp = ""
-    elabel = "inset"
-
-
-inset = _inset()
-
-
-class _last(TagBase):
-    tagstr = "last"
-    tagops = []
-    taghelp = ""
-    elabel = "last"
-
-
-last = _last()
+# TODO: limit H to its domain
 
 
 class _lh(TagBase):
@@ -219,66 +111,6 @@ class _mr(TagBase):
 
 
 mr = _mr()
-
-
-class _max(TagBase):
-    tagstr = "max-{val}"
-    tagops = []
-    taghelp = ""
-    elabel = "max"
-
-
-max = _max()
-
-
-class _min(TagBase):
-    tagstr = "min-{val}"
-    tagops = []
-    taghelp = ""
-    elabel = "min"
-
-
-min = _min()
-
-
-class _none(TagBase):
-    tagstr = "none"
-    tagops = []
-    taghelp = ""
-    elabel = "none"
-
-
-none = _none()
-
-
-class _offset(TagBase):
-    tagstr = "offset-{val}"
-    tagops = []
-    taghelp = ""
-    elabel = "offset"
-
-
-offset = _offset()
-
-
-class _opacity(TagBase):
-    tagstr = "opacity-{val}"
-    tagops = []
-    taghelp = ""
-    elabel = "opacity"
-
-
-opacity = _opacity()
-
-
-class _order(TagBase):
-    tagstr = "order-{val}"
-    tagops = []
-    taghelp = ""
-    elabel = "order"
-
-
-order = _order()
 
 
 class _ovf(TagBase):
@@ -321,56 +153,6 @@ class _resize(TagBase):
 resize = _resize()
 
 
-class _ring(TagBase):
-    tagstr = "ring-{val}"
-    tagops = []
-    taghelp = ""
-    elabel = "ring"
-
-
-ring = _ring()
-
-
-class _row(TagBase):
-    tagstr = "row-{val}"
-    tagops = []
-    taghelp = ""
-    elabel = "row"
-
-
-row = _row()
-
-
-class _rows(TagBase):
-    tagstr = "rows-{val}"
-    tagops = []
-    taghelp = ""
-    elabel = "rows"
-
-
-rows = _rows()
-
-
-class _screen(TagBase):
-    tagstr = "screen"
-    tagops = []
-    taghelp = ""
-    elabel = "screen"
-
-
-screen = _screen()
-
-
-class _scroll(TagBase):
-    tagstr = "scroll"
-    tagops = []
-    taghelp = ""
-    elabel = "scroll"
-
-
-scroll = _scroll()
-
-
 class _sb(TagBase):
     tagstr = "b-{val}"
     tagops = []
@@ -411,26 +193,6 @@ class _st(TagBase):
 st = _st()
 
 
-class _space(TagBase):
-    tagstr = "space-{val}"
-    tagops = []
-    taghelp = ""
-    elabel = "space"
-
-
-space = _space()
-
-
-class _span(TagBase):
-    tagstr = "span-{val}"
-    tagops = []
-    taghelp = ""
-    elabel = "span"
-
-
-span = _span()
-
-
 class _start(TagBase):
     tagstr = "start{val}"
     tagops = []
@@ -439,26 +201,6 @@ class _start(TagBase):
 
 
 start = _start()
-
-
-class _text(TagBase):
-    tagstr = "text-{val}"
-    tagops = []
-    taghelp = ""
-    elabel = "text"
-
-
-text = _text()
-
-
-class _visible(TagBase):
-    tagstr = "visible"
-    tagops = []
-    taghelp = ""
-    elabel = "visible"
-
-
-visible = _visible()
 
 
 class _W(TagBase):
@@ -479,6 +221,16 @@ class _zo(TagBase):
 
 
 zo = _zo()
+
+
+class _noop(TagBase):
+    tagstr = "{val}"
+    tagops = []
+    taghelp = ""
+    elabel = "noop"
+
+
+noop = _noop()
 
 
 current_module = sys.modules[__name__]

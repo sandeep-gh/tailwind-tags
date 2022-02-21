@@ -8,30 +8,38 @@ class _ColorBase:
 
     @ classmethod
     def __truediv__(cls, colorval):
-        return f"{cls.mycolor}-{colorval}00"
+        return cls.evaluate(colorval)
 
     @classmethod
     def evaluate(cls, colorval):
-        return f"{cls.mycolor}-{colorval}00"
+        if colorval[-1] != '0':
+            return f"{cls.mycolor}-{colorval}00"
+        else:
+            return f"{cls.mycolor}-{colorval}"
         pass
 
     @classmethod
     def keyvaleval(cls, colorval):
-        return ("_color", f"{cls.mycolor}-{colorval}00")
+        return cls.evaluate(colorval)
 
-    @ classmethod
-    def __pow__(cls, colorval):
-        return f"{cls.mycolor}-{colorval}00"
+    # @ classmethod
+    # def __pow__(cls, colorval):
+    #     print("In __pw")
+    #     return f"{cls.mycolor}-{colorval}00"
 
     @classmethod
     def __repr__(cls):
         return f"{cls.mycolor}"
 
 
-blueGray = coolGray = gray = trueGray = warmGray = red = orange = amber = yellow = lime = green = emerald = teal = cyan = lightBlue = blue = indigo = violet = purple = fuchsia = pink = rose = None
+slate = gray = zinc = neutral = stone = red = orange = amber = yellow = lime = green = emerald = teal = cyan = sky = blue = indigo = violet = purple = fuchsia = pink = rose = None
 
-_tw_color_list = ["blueGray", "coolGray", "gray", "trueGray", "warmGray", "red", "orange", "amber", "yellow", "lime",
-                  "green", "emerald", "teal", "cyan", "lightBlue", "blue", "indigo", "violet", "purple", "fuchsia", "pink", "rose"]
+#blueGray = coolGray = gray = trueGray = warmGray = red = orange = amber = yellow = lime = green = emerald = teal = cyan = lightBlue = blue = indigo = violet = purple = fuchsia = pink = rose = None
+
+_tw_color_list = ["slate", "gray", "zinc", "neutral", "stone", "red", "orange", "amber", "yellow", "lime", "green", "emerald", "teal", "cyan", "sky", "blue", "indigo", "violet", "purple", "fuchsia", "pink", "rose"
+                  ]
+# _tw_color_list = ["blueGray", "coolGray", "gray", "trueGray", "warmGray", "red", "orange", "amber", "yellow", "lime",
+#                   "green", "emerald", "teal", "cyan", "lightBlue", "blue", "indigo", "violet", "purple", "fuchsia", "pink", "rose"]
 
 for color in _tw_color_list:
     globals()[color.capitalize()] = type(color.capitalize(), (_ColorBase,),

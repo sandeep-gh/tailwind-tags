@@ -211,6 +211,9 @@ class FontWeight(Enum):
     black = "font-black"
     semibold = "font-semibold"
 
+    def __call__(self, *args):
+        return self.value(*args)
+
 #TBD: docs/font-variant-numeric
 
 
@@ -353,6 +356,16 @@ class PlacementPosition(Enum):
 class BoxSizing(Enum):
     b = "box-border"
     c = "box-content"
+    pass
+
+
+class Prose(Enum):
+    sm = "prose-sm"
+    _ = "prose-base"
+    lg = "prose-lg"
+    xl = "prose-xl"
+    xl2 = "prose-2xl"
+    pass
 
 
 current_module = sys.modules[__name__]

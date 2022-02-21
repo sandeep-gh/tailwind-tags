@@ -2,7 +2,7 @@
 if they can be uniquely defined"
 xl3 as 
 """
-from .style_values import FontWeight as fw, BoxShadow as shdw, LineHeight as lh, FontSize as fz
+from .style_values import FontWeight as fw, BoxShadow as shdw, LineHeight as lh, FontSize as fz, DisplayBox as db
 bold = fw.bold
 shadow = shdw._
 relaxed = lh.relaxed
@@ -12,3 +12,4 @@ xl3 = fz.xl3
 xl4 = fz.xl4
 xl5 = fz.xl5
 xl6 = fz.xl6
+flex = db.f

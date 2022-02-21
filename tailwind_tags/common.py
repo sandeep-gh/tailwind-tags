@@ -41,7 +41,6 @@ class _IDivExpr:
         self.elabel = elabel
 
     def __truediv__(self, arg):
-        #print(f"_IDivExpr.div:  {self}, exp={self.tagstr}  next={self.arg2} arg={arg}")
         tt = _IDivExpr(self, self.elabel, arg)
         return tt
         # if isinstance(arg, _ColorBase):
@@ -52,10 +51,9 @@ class _IDivExpr:
         # return _IDivExpr(self, arg)
 
     def evaluate(self, val=""):
-        #print("eval = ", self, " ", self.tagstr, " ", self.arg2, " ", val)
+        # print("eval = ", self, " ", self.tagstr, " ", self.arg2, " ", val)
         # print("eval = ", " ", type(self.tagstr),
         #       " ", type(self.arg2), " ", val)
-
         if isinstance(self.tagstr, str) and isinstance(self.arg2, _IDivExpr):
             return self.tagstr.format(val=self.arg2.evaluate(val))
         if isinstance(self.tagstr, _IDivExpr) and isinstance(self.arg2, TagBase):
@@ -67,7 +65,6 @@ class _IDivExpr:
             return self.tagstr.evaluate(val=aval)
         if isinstance(self.tagstr, str) and (isinstance(self.arg2, TagBase) or isinstance(self.arg2, _ColorBase)):
             ares = self.arg2.evaluate(val)
-            #print ("phere = ", ares, self.tagstr)
             op = self.tagstr.format(val=ares)
             return self.tagstr.format(val=ares)
 
@@ -76,6 +73,13 @@ class _IDivExpr:
             tmp = self.tagstr.format(val="-" + str(self.arg2))
             return tmp.replace("--", "-")
 
+        if isinstance(self.tagstr, str) and isinstance(self.arg2, Enum):
+            if self.elabel == "noop":
+
+                return self.arg2.value
+            else:
+                raise ValueError(
+                    "Don't combine with Enum with tags other than noop")
         print("evaluate: unkown case ", type(
             self.tagstr), " ", type(self.arg2), " ", val)
         print("evaluate: unkown case ", self.tagstr, " ", self.arg2, " ", val)
@@ -101,6 +105,15 @@ class _IDivExpr:
         if isinstance(self.tagstr, str) and (isinstance(self.arg2, int) or isinstance(self.arg2, str)):
             return (self.elabel, self.arg2)
 
+        if isinstance(self.tagstr, str) and isinstance(self.arg2, Enum):
+
+            if self.elabel == "noop":
+                return (self.arg2.__class__.__name__, self.arg2.name)
+
+            else:
+                raise ValueError(
+                    "Don't combine with Enum with tags other than noop")
+
         print("evaluate: unkown case ", type(
             self.tagstr), " ", type(self.arg2), " ", val)
         print("evaluate: unkown case ", self.tagstr, " ", self.arg2, " ", val)
@@ -121,25 +134,60 @@ def tstr(*args, prefix=""):
     #print("=============begin tstr============")
     res = ""
     for arg in args:
+
+        try:
+            modifier_prefix = ":".join(arg.modifier_chain) + ":"
+        except:
+            modifier_prefix = ""
+            pass
         if isinstance(arg, Enum):
-            res += f"{prefix}" + arg.value + " "
+
+            res += f"{modifier_prefix}{prefix}" + arg.value + " "
         if isinstance(arg, _IDivExpr):
-            res += f"{prefix}" + arg.evaluate() + " "
+            res += f"{modifier_prefix}{prefix}" + arg.evaluate() + " "
         if isinstance(arg, TagBase):
-            res += f"{prefix}" + arg.tagstr + " "
+            res += f"{modifier_prefix}{prefix}" + arg.tagstr + " "
         if isinstance(arg, str):
             res += f"{prefix}" + arg + " "
     #print("=============begin tstr============")
     return res.strip()
 
 
+def modify(*args, modifier_chain=[], modifier: str = ""):
+    for arg in args:
+        try:
+            arg.modifier_chain.insert(0, modifier)
+        except:
+            arg.modifier_chain = [modifier]
+    return args
+
+
+def selection(*args):
+    return modify(*args, modifier="selection")
+
+
+def placeholder(*args):
+    return modify(*args, modifier="placeholder")
+
+
 def hover(*args):
-    return tstr(*args, prefix="hover:")
+    return modify(*args, modifier="hover")
 
 
-def variant(rv, *args):
+def focus(*args):
+    return modify(*args, modifier="focus")
+
+
+def variant(*args, rv: str):
     """
     rv: responsive variant, sm, md, lg, xl, 2xl
 
     """
-    return tstr(*args, str(rv))
+    return modify(*args, modifier=rv)
+
+
+modifier_fn_dict = {"hover": hover,
+                    "selection": selection,
+                    "placeholder": placeholder,
+                    "focus": focus
+                    }

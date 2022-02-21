@@ -2,8 +2,8 @@ from tailwind_tags import *
 import tailwind_tags as tt
 #res = get_styReport(text/gray/6, mr/sb/2, mr/x/auto, W/6, G/cols/6)
 from addict import Dict
-res = get_styReport(mr/4)
-
+#res = get_styReport(mr/4)
+res = tstr(sw/pink/"600/80")
 
 # r = fw.normal #pd/5  # resize/x/5
 # res = r.keyvaleval()

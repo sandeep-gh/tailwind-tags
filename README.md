@@ -17,4 +17,6 @@ Also, not all construct of tailwind is available here.
 
 See (tailwind-tags.md) for constructs and valid expression. 
 
+#TODOs
+- inherit
 Developed By: Monallabs.in
