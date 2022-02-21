@@ -15,6 +15,60 @@ A word of caution:
 This library does pollute the namespace of you python file/module, so be careful if using "from tailwind_tags import *". 
 Also, not all construct of tailwind is available here. 
 
+
+## New: Modifiers can are applied using python functions
+Tailwind modifiers are expressed using function of the corresponding name. See example for usage
+```
+print(tstr(*hover(*focus(bg/green/400), *focus(*placeholder(noop/fw.bold), fc/pink/100))))
+```
+will yield
+```
+hover:focus:bg-green-400 hover:focus:placeholder:font-bold hover:focus:text-pink-100
+```
+
+## New: From python expression to json and back
+Tailwind directives can now be converted into json object and vice versa
+### to json
+```
+res = tt.styClause.to_json(
+    *hover(*focus(bg/green/400), *focus(*placeholder(noop/fw.bold), fc/pink/100)))
+    
+```
+
+
+The `res` out:
+```json
+{
+    "passthrough": [],
+    "bg": {
+        "_val": "green-400",
+        "_modifier_chain": ["hover", "focus"]
+    },
+    "FontWeight": {
+        "_val": "bold",
+        "_modifier_chain": ["hover", "focus", "placeholder"]
+    },
+    "fc": {
+        "_val": "pink-100",
+        "_modifier_chain": ["hover", "focus"]
+    }
+}
+```
+
+### to clause
+
+```
+claus = tt.styClause.to_clause(res)
+print(tstr(*claus))
+```
+
+Which outputs the original tailwind expression
+```
+hover:focus:bg-green-400 hover:focus:placeholder:font-bold hover:focus:text-pink-100
+```
+
+TBD: variants 
+
 See (tailwind-tags.md) for constructs and valid expression. 
 
 #TODOs

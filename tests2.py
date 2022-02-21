@@ -5,6 +5,8 @@ from addict import Dict
 # from tests import styreport_resolve
 import pickle
 import json
+import jsbeautifier
+
 
 # itm = hover(noop/fw.bold)
 # print(itm[0].modifier_chain)
@@ -23,11 +25,12 @@ import json
 # res = tt.styClause.to_json(
 #     *hover(fc/gray/"5", *variant(*placeholder(noop/fw.bold), rv='md'), auto), bg/green/5)
 
+#print(tstr(*hover(*focus(bg/green/400), *focus(*placeholder(noop/fw.bold), fc/pink/100))))
 res = tt.styClause.to_json(
-    *variant(
-        *hover(*focus(bg/green/400), *focus(*placeholder(noop/fw.bold), fc/pink/100)), rv='md')
-)
-print(res)
+    *hover(*focus(bg/green/400), *focus(*placeholder(noop/fw.bold), fc/pink/100)))
+#opts = jsbeautifier.default_options()
+#print(jsbeautifier.beautify(json.dumps(res), opts))
+# print(res)
 
 claus = tt.styClause.to_clause(res)
 print(tstr(*claus))
