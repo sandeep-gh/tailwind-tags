@@ -5,8 +5,8 @@ from tailwind_tags.common import TagBase
 class _sw(TagBase):
     tagstr = "shadow-{val}"
     tagops = []
-    taghelp = ""
-    elabel = "shadow"
+    taghelp = "shadow"
+    elabel = "sw"
 
 
 sw = _sw()
@@ -16,7 +16,7 @@ class _bd(TagBase):
     tagstr = "border-{val}"
     tagops = []
     taghelp = "border color"
-    elabel = "border"
+    elabel = "bd"
 
 
 bd = _bd()
@@ -26,6 +26,7 @@ class _cc(TagBase):
     tagstr = ""
     tagops = []
     taghelp = "commnet out, tag does not appear in final tstr"
+    elabel = "cc"
 
 
 cc = _cc()
@@ -37,17 +38,17 @@ _tw_keywords = ["container", "inherit",
 for kw in _tw_keywords:
     globals()[f"_{kw}"] = type(f"_{kw}", (TagBase,),
 
-                               {'tagstr': kw, "tagops": [], "taghelp": "", "elabel": kw})
+                               {'tagstr': kw, "tagops": [], "taghelp": kw, "elabel": kw})
 
     globals()[kw] = globals()[f"_{kw}"]()
 
 
 _tw_keywords_val = ["bg", "x", "y", "duration", "inset",
-                    "max", "min", "offset", "opacity", "order", "ring", "row", "rows", "col", "cols", "space", "span", "stroke"]
+                    "max", "min", "offset", "opacity", "order", "ring", "row", "rows", "col", "cols", "space", "span", "stroke", "gap"]
 for kw in _tw_keywords_val:
     globals()[f"_{kw}"] = type(f"_{kw}", (TagBase,),
 
-                               {'tagstr': f"{kw}-{{val}}", "tagops": [], "taghelp": "", "elabel": kw})
+                               {'tagstr': f"{kw}-{{val}}", "tagops": [], "taghelp": kw, "elabel": kw})
 
     globals()[kw] = globals()[f"_{kw}"]()
 
@@ -55,7 +56,7 @@ for kw in _tw_keywords_val:
 class _end(TagBase):
     tagstr = "end{val}"
     tagops = []
-    taghelp = ""
+    taghelp = "end"
     elabel = "end"
 
 
@@ -75,7 +76,7 @@ fc = _fc()
 class _G(TagBase):
     tagstr = "grid-{val}"
     tagops = []
-    taghelp = "grid attributes"
+    taghelp = "grid"
     elabel = "G"
 
 
@@ -85,7 +86,7 @@ G = _G()
 class _H(TagBase):
     tagstr = "h-{val}"
     tagops = ['screen']
-    taghelp = ""
+    taghelp = "height"
     elabel = "H"
 
 
@@ -106,7 +107,7 @@ lh = _lh()
 class _mr(TagBase):
     tagstr = "m{val}"
     tagops = {}
-    taghelp = "margin for x and y"
+    taghelp = "margin"
     elabel = "mr"
 
 
@@ -176,7 +177,7 @@ sl = _sl()
 class _sr(TagBase):
     tagstr = "r-{val}"
     tagops = []
-    taghelp = "right"
+    taghelp = "side right"
     elabel = "sr"
 
 
@@ -186,7 +187,7 @@ sr = _sr()
 class _st(TagBase):
     tagstr = "t-{val}"
     tagops = []
-    taghelp = "top"
+    taghelp = "side top"
     elabel = "st"
 
 
@@ -196,7 +197,7 @@ st = _st()
 class _start(TagBase):
     tagstr = "start{val}"
     tagops = []
-    taghelp = ""
+    taghelp = "start"
     elabel = "start"
 
 
@@ -216,7 +217,7 @@ W = _W()
 class _zo(TagBase):
     tagstr = "z-{val}"
     tagops = []
-    taghelp = ""
+    taghelp = "z-order"
     elabel = "zo"
 
 
@@ -233,13 +234,17 @@ class _noop(TagBase):
 noop = _noop()
 
 
+# current_module = sys.modules[__name__]
+# styTagDict = {}
+# for varName in dir():
+#     try:
+#         res = getattr(current_module, varName)
+#         styTagDict[varName] = res
+
+#     except:
+
+#         pass
+
 current_module = sys.modules[__name__]
-styTagDict = {}
-for varName in dir():
-    try:
-        res = getattr(current_module, varName)
-        styTagDict[varName] = res
-
-    except:
-
-        pass
+styTagDict = dict([(name, cls)
+                   for name, cls in current_module.__dict__.items() if isinstance(cls, TagBase)])

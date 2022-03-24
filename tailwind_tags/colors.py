@@ -7,11 +7,11 @@ class _ColorBase:
     mycolor = None
 
     @ classmethod
-    def __truediv__(cls, colorval):
-        return cls.evaluate(colorval)
+    def __truediv__(cls, colorval: str):
+        return cls.evaluate(str(colorval))
 
     @classmethod
-    def evaluate(cls, colorval):
+    def evaluate(cls, colorval: str):
         if colorval[-1] != '0':
             return f"{cls.mycolor}-{colorval}00"
         else:
@@ -19,7 +19,7 @@ class _ColorBase:
         pass
 
     @classmethod
-    def keyvaleval(cls, colorval):
+    def keyvaleval(cls, colorval: str):
         return cls.evaluate(colorval)
 
     # @ classmethod

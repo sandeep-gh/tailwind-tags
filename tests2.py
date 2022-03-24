@@ -8,9 +8,15 @@ import json
 import jsbeautifier
 
 
-# itm = hover(noop/fw.bold)
+import justpy as jp
+
+
+#wp = jp.WebPage(body_classes="bg-green-400")
+r = tstr(sw/slate/"500/50")
+print(r)
+itm = hover(noop/fw.bold)
 # print(itm[0].modifier_chain)
-# print(tstr(*itm))
+print(tstr(*itm))
 # hover: fc/gray/"5"
 # print(tstr(*hover(fc/gray/"5", *variant(*placeholder(noop/fw.bold), rv='md'), auto)))
 # for arg in hover(fc/gray/"5", *variant(*placeholder(fw.bold), rv='md'), auto):
@@ -26,14 +32,14 @@ import jsbeautifier
 #     *hover(fc/gray/"5", *variant(*placeholder(noop/fw.bold), rv='md'), auto), bg/green/5)
 
 #print(tstr(*hover(*focus(bg/green/400), *focus(*placeholder(noop/fw.bold), fc/pink/100))))
-res = tt.styClause.to_json(
-    *hover(*focus(bg/green/400), *focus(*placeholder(noop/fw.bold), fc/pink/100)))
+# res = tt.styClause.to_json(
+#     *hover(*focus(bg/green/400), *focus(*placeholder(noop/fw.bold), fc/pink/100)))
 #opts = jsbeautifier.default_options()
 #print(jsbeautifier.beautify(json.dumps(res), opts))
 # print(res)
 
-claus = tt.styClause.to_clause(res)
-print(tstr(*claus))
+# claus = tt.styClause.to_clause(res)
+# print(tstr(*claus))
 
 # print(tstr(*claus))
 # print("tstr = ", tstr(pd/x/4, bold, fc/gray/"50",

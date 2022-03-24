@@ -47,13 +47,13 @@ BoxLayout = DisplayBox
 # docs/float
 
 
-class WrapAround:
+class WrapAround(Enum):
     r = "float-right"
     l = "float-left"
     n = "float-none"
 
 
-class ClearWrap:
+class ClearWrap(Enum):
     l = "clear-left"
     r = "clear-right"
     b = "clear-both"
@@ -368,13 +368,33 @@ class Prose(Enum):
     pass
 
 
+class GridFlow(Enum):
+    row = "grid-flow-row"
+    col = "grid-flow-col"
+    rowd = "grid-flow-row-dense"
+    cold = "grid-flow-col-dense"
+    pass
+
+
+class GridAuto(Enum):
+    cauto = "grid-cols-auto"
+    cmin = "grid-cols-min"
+    cmax = "grid-cols-max"
+    cfr = "grid-cols-fr"
+    rauto = "grid-rows-auto"
+    rmin = "grid-ros-min"
+    rmax = "grid-rows-max"
+    rfr = "grid-rows-fr"
+
+
 current_module = sys.modules[__name__]
-styValueDict = {}
-for varName in dir():
-    try:
-        res = getattr(current_module, varName)
-        styValueDict[varName] = res
+styValueDict = dict([(name, cls)
+                     for name, cls in current_module.__dict__.items() if isinstance(cls, type) and name != 'Enum'])
+# for varName in dir():
+#     try:
+#         res = getattr(current_module, varName)
+#         styValueDict[varName] = res
 
-    except:
+#     except:
 
-        pass
+#         pass
