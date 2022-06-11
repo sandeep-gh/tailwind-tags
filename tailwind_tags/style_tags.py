@@ -157,7 +157,7 @@ resize = _resize()
 class _sb(TagBase):
     tagstr = "b-{val}"
     tagops = []
-    taghelp = "bottom"
+    taghelp = "side bottom"
     elabel = "sb"
 
 
@@ -192,6 +192,54 @@ class _st(TagBase):
 
 
 st = _st()
+
+class _top(TagBase):
+    tagstr = "top-{val}"
+    tagops = []
+    taghelp = "top"
+    elabel = "top"
+
+
+top = _top()
+
+
+class _right(TagBase):
+    tagstr = "right-{val}"
+    tagops = []
+    taghelp = "right"
+    elabel = "right"
+
+
+right = _right()
+
+class _bottom(TagBase):
+    tagstr = "bottom-{val}"
+    tagops = []
+    taghelp = "bottom"
+    elabel = "bottom"
+
+
+bottom = _bottom()
+
+
+class _left(TagBase):
+    tagstr = "left-{val}"
+    tagops = []
+    taghelp = "left"
+    elabel = "left"
+
+
+left = _left()
+
+class _inset(TagBase):
+    tagstr = "inset-{val}"
+    tagops = []
+    taghelp = "inset"
+    elabel = "inset"
+
+
+inset = _inset()
+
 
 
 class _start(TagBase):

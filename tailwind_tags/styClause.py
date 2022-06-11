@@ -90,6 +90,8 @@ def to_clause(styreport):
 
         if key in styValueDict:
             return modifier_fn(getattr(styValueDict[key], val._val))
+        elif isinstance(val, _IDivExpr):
+            return modifier_fn(styTagDict[key].__truediv__(val))
 
         elif '_val' in val:
             return modifier_fn(styTagDict[key].__truediv__(val._val))
@@ -106,9 +108,7 @@ def to_clause(styreport):
             return modifier_fn(x2)
             # return styTagDict[k].__truediv__(v._val)
             # return styTagDict[key].__truediv__(styTagDict[k].__truediv__(v._val))
-
         else:
-
             print("unable to resolve ", key, val, len(val.items()))
             raise ValueError
 
@@ -124,9 +124,13 @@ def to_clause(styreport):
         elif '_val' in v or '_color' in v or len(v.items()) == 1:
             # [res.append(_) for _ in json_to_clause(k, v)]
             res.append(json_to_clause(k, v))
+        elif len(v.items()) > 1:
+            for sk, sv in v.items():
+                res.append(json_to_clause(k, json_to_clause(sk, sv)))
         else:
-            print("no resolved ", k, v)
-            raise ValueError
+            print("Unable to parse ")
+            raise ValueError("unable to parse sty json to sty clause")
+
     return res
 
 # ================================ end ===============================
