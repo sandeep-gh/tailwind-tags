@@ -67,6 +67,10 @@ Which outputs the original tailwind expression
 hover:focus:bg-green-400 hover:focus:placeholder:font-bold hover:focus:text-pink-100
 ```
 
+## All supported tailwind constructs in python as keywords or Enum classes
+
+![All supported tailwind constructs in python as keywords or Enum classes](/utils/Documents/tailwind_constructs_for_ofjustpy.png?raw=true "Optional Title")
+
 TBD: variants 
 
 See (tailwind-tags.md) for constructs and valid expression. 
