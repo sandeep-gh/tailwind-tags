@@ -69,7 +69,7 @@ hover:focus:bg-green-400 hover:focus:placeholder:font-bold hover:focus:text-pink
 
 ## All supported tailwind constructs in python as keywords or Enum classes
 
-![All supported tailwind constructs in python as keywords or Enum classes](/utils/Documents/tailwind_constructs_for_ofjustpy.png?raw=true "Optional Title")
+![All supported tailwind constructs in python as keywords or Enum classes](/utils/tailwind_constructs_for_ofjustpy.png?raw=true "Optional Title")
 
 TBD: variants 
 
