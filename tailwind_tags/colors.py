@@ -5,13 +5,21 @@ from addict import Dict
 
 class _ColorBase:
     mycolor = None
-
+    elabel = "color"
     @ classmethod
     def __truediv__(cls, colorval: str):
         return cls.evaluate(str(colorval))
 
     @classmethod
     def evaluate(cls, colorval: str):
+        #print ("calling color evaluate")
+        #print ("color val = ", colorval)
+        #for black and white color
+        #we use black/0. this is done to maintain
+        #consistency
+        
+        if colorval == "0":
+            return cls.mycolor
         if colorval[-1] != '0':
             return f"{cls.mycolor}-{colorval}00"
         else:
@@ -36,7 +44,7 @@ slate = gray = zinc = neutral = stone = red = orange = amber = yellow = lime = g
 
 #blueGray = coolGray = gray = trueGray = warmGray = red = orange = amber = yellow = lime = green = emerald = teal = cyan = lightBlue = blue = indigo = violet = purple = fuchsia = pink = rose = None
 
-_tw_color_list = ["slate", "gray", "zinc", "neutral", "stone", "red", "orange", "amber", "yellow", "lime", "green", "emerald", "teal", "cyan", "sky", "blue", "indigo", "violet", "purple", "fuchsia", "pink", "rose"
+_tw_color_list = ["slate", "gray", "zinc", "neutral", "stone", "red", "orange", "amber", "yellow", "lime", "green", "emerald", "teal", "cyan", "sky", "blue", "indigo", "violet", "purple", "fuchsia", "pink", "rose", "black", "white"
                   ]
 # _tw_color_list = ["blueGray", "coolGray", "gray", "trueGray", "warmGray", "red", "orange", "amber", "yellow", "lime",
 #                   "green", "emerald", "teal", "cyan", "lightBlue", "blue", "indigo", "violet", "purple", "fuchsia", "pink", "rose"]
@@ -47,6 +55,7 @@ for color in _tw_color_list:
                                          {'mycolor': color})
 
     globals()[color] = globals()[color.capitalize()]()
+
 
 onetonine = ["_", "i", "ii", "iii", "iv", "v", "vi", "vii", "viii", "ix"]
 
@@ -69,3 +78,8 @@ def color2hex(twcc):
         raise ValueError(f"{scale} not found in _twccd",
                          _twccd[basecolor].keys())
     raise ValueError
+
+
+def get_color_instance(colorname):
+    assert colorname in _tw_color_list
+    return globals()[colorname]

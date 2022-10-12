@@ -33,7 +33,7 @@ cc = _cc()
 
 
 _tw_keywords = ["container", "inherit",
-                "current", "transparent", "black", "white", "first", "full", "screen", "hidden", "last", "none", "scroll", "span", "text", "visible", "auto", "group"]
+                "current", "transparent",  "first", "full", "screen", "hidden", "last", "none", "scroll", "span", "text", "visible", "auto", "group", "double", "clip", "invisible"]
 
 for kw in _tw_keywords:
     globals()[f"_{kw}"] = type(f"_{kw}", (TagBase,),
@@ -44,7 +44,7 @@ for kw in _tw_keywords:
 
 
 _tw_keywords_val = ["bg", "x", "y", "duration", "inset",
-                    "max", "min", "offset", "opacity", "order", "ring", "row", "rows", "col", "cols", "space", "span", "stroke", "gap"]
+                    "max", "min", "offset", "opacity", "order", "ring", "row", "rows", "col", "cols", "space", "span", "stroke", "gap", "outline"]
 for kw in _tw_keywords_val:
     globals()[f"_{kw}"] = type(f"_{kw}", (TagBase,),
 
@@ -115,7 +115,7 @@ mr = _mr()
 
 
 class _ovf(TagBase):
-    tagstr = "overflow{val}"
+    tagstr = "overflow-{val}"
     tagops = []
     taghelp = ""
     elabel = "ovf"

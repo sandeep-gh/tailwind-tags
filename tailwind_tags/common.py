@@ -3,45 +3,15 @@ from aenum import Enum
 from .colors import _ColorBase
 from addict import Dict
 
-
-class TagBase:
-    tagstr = None
-    tagops = None
-    taghelp = None
-    elabel = None  # the label that ends up in the style expression
-
-    @classmethod
-    def __truediv__(cls, valprefix):
-        tt = _IDivExpr(cls.tagstr, cls.elabel, valprefix)
-        return tt
-        # if isinstance(valprefix, TagBase) or isinstance(valprefix, _ColorBase):
-        #     return _IDivExpr(cls.tagstr, valprefix)
-        # return _IDivExpr(cls, valprefix)
-
-    @classmethod
-    def evaluate(cls, val):
-        fres = cls.tagstr.format(val=val)
-        return cls.tagstr.format(val=val)
-
-    @classmethod
-    def keyvaleval(cls, val=None):
-        # fres = cls.tagstr.format(val=val)
-        # key = cls.tagstr.replace("{val}", "")
-        # key = key.replace("-", "")
-        if val == None or val == "":
-            return (cls.elabel,  cls.elabel)
-        else:
-            return (cls.elabel,  val)
-
-
 class _IDivExpr:
     def __init__(self, tagstr, elabel, arg2):
         self.tagstr = tagstr
         self.arg2 = arg2
         self.elabel = elabel
-
+        self.modifier_chain = None
     def __truediv__(self, arg):
-        tt = _IDivExpr(self, self.elabel, arg)
+        #print ("calling IDivExpr for IDivExpr: ", arg)
+        tt = _IDivExpr(self, self.arg2.elabel, arg)
         return tt
         # if isinstance(arg, _ColorBase):
         #     res = _IDivExpr(self, arg)
@@ -125,6 +95,41 @@ class _IDivExpr:
     #         rstr = rstr[0:-1]
     #     return rstr
 
+    
+
+class TagBase:
+    tagstr = None
+    tagops = None
+    taghelp = None
+    elabel = None  # the label that ends up in the style expression
+    modifier_chain = None
+    
+    @classmethod
+    def __truediv__(cls, valprefix):
+        #print ("calling IDivExpr for Tag : ", cls.tagstr, " ", valprefix)
+        tt = _IDivExpr(cls.tagstr, cls.elabel, valprefix)
+        return tt
+        # if isinstance(valprefix, TagBase)or isinstance(valprefix, _ColorBase):
+        #     return _IDivExpr(cls.tagstr, valprefix)
+        # return _IDivExpr(cls, valprefix)
+
+    @classmethod
+    def evaluate(cls, val):
+        fres = cls.tagstr.format(val=val)
+        return cls.tagstr.format(val=val)
+
+    @classmethod
+    def keyvaleval(cls, val=None):
+        # fres = cls.tagstr.format(val=val)
+        # key = cls.tagstr.replace("{val}", "")
+        # key = key.replace("-", "")
+        if val == None or val == "":
+            return (cls.elabel,  cls.elabel)
+        else:
+            return (cls.elabel,  val)
+
+
+
 
 def tstr(*args, prefix=""):
     if len(args) > 0:
@@ -151,6 +156,94 @@ def tstr(*args, prefix=""):
             res += f"{prefix}" + arg + " "
     #print("=============begin tstr============")
     return res.strip()
+
+def remove_from_twtag_list(twsty_taglist, twsty_tag):
+    if isinstance(twsty_tag, Enum):
+        twsty_taglist.remove(twsty_tag)
+        return
+
+    remove_idx = None
+    for idx, _twtag in enumerate(twsty_taglist ):
+        if isinstance(_twtag, Enum):
+            continue
+        if twsty_tag.elabel == _twtag.elabel:
+            if type(twsty_tag.tagstr) == type(_twtag.tagstr):
+                if isinstance(twsty_tag.tagstr, _IDivExpr):
+                    if twsty_tag.tagstr.elabel == _twtag.tagstr.elabel:
+                        assert twsty_tag.tagstr.arg2 == _twtag.tagstr.arg2
+                        remove_idx = idx
+                        break
+                elif isinstance(twsty_tag, TagBase):
+                    remove_idx = idx
+                    break
+                else:
+                    
+                    if twsty_tag.arg2 == _twtag.arg2:
+                        remove_idx = idx
+                        break
+
+    if remove_idx is None:
+        print ("error ", tstr(twsty_tag), " -->", tstr(*twsty_taglist))
+        raise ValueError("unable to remove ", twsty_tag)
+    assert remove_idx is not None
+    twsty_taglist.pop(remove_idx)
+    
+
+
+def add_to_twtag_list_internal(twsty_taglist, twsty_tag):
+    """
+    add the twsty_tag to taglist; override existing elabel. 
+    TODO: bg/green/100, bg/opacity/50
+    """
+
+    if isinstance(twsty_tag, Enum):
+        override_pos = None
+        for idx, _twtag in enumerate(twsty_taglist):
+            if isinstance(_twtag, Enum):
+                if _twtag.__class__ == twsty_tag.__class__:
+                    override_pos = idx
+                    break
+            pass                
+        if override_pos is not None:
+            twsty_taglist[override_pos] = twsty_tag
+        else:
+            twsty_taglist.append(twsty_tag)
+        return 
+    
+    tagclass = twsty_tag.elabel
+    override_pos = None
+    for idx, _twtag in enumerate(twsty_taglist):
+        if isinstance(_twtag, Enum):
+            continue
+        #TODO: currently not handling modifier chain.
+        #need better/first class handling of modifier c
+        if _twtag.modifier_chain is not None:
+            continue
+        if twsty_tag.elabel == _twtag.elabel:
+            if isinstance(twsty_tag.tagstr, _IDivExpr) and isinstance(_twtag.tagstr, _IDivExpr):
+
+                if twsty_tag.tagstr.elabel == _twtag.tagstr.elabel:
+                    #print("found match 1; group=", twsty_tag.elabel,"/",_twtag.tagstr.elabel)
+                    override_pos = idx
+                else:
+
+                    continue
+            elif type(twsty_tag.arg2) == type(_twtag.arg2):
+
+                override_pos = idx
+
+    
+    if override_pos is not None:
+        twsty_taglist[override_pos] = twsty_tag
+        
+    else:
+        twsty_taglist.append(twsty_tag)
+
+def conc_twtags(*args):
+    res = []
+    for twsty_tag in args:
+        add_to_twtag_list_internal(res, twsty_tag)
+    return res
 
 
 def modify(*args, modifier_chain=[], modifier: str = ""):

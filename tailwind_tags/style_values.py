@@ -248,8 +248,17 @@ class TextAlign(Enum):
     center = "text-center"
     right = "text-right"
     justify = "text-justify"
+    start = "text-start"
+    end = "text-end"
     pass
 
+# https://tailwindcss.com/docs/text-transform
+class TextTransform(Enum):
+    u = "uppercase"
+    l = "lowercase"
+    c = "capitalize"
+    n = "normal-case"
+    
 
 class VerticalAlign(Enum):
     top = "align-top"
@@ -301,6 +310,14 @@ class BorderStyle(Enum):
     separate = "border-separate"
 
 
+class OutlineStyle(Enum):
+    none = "outline-none"
+    _ = "outline"
+    dashed = "outline-dashed"
+    dotted = "outline-dotted"
+    double = "outline-double"
+    hidden = "outline-hidden"
+
 class BoxShadow(Enum):
     sm = "shadow-sm"
     _ = "shadow"
@@ -326,10 +343,10 @@ class Table(Enum):
 # TBD: cursor,
 
 
-class Outline(Enum):
-    n = "outline-none"
-    w = "outline-white"
-    b = "outline-black"
+# class Outline(Enum):
+#     n = "outline-none"
+#     w = "outline-white"
+#     b = "outline-black"
 
 
 # TBD: user-select, fill-current, stroke, stroke-width, screen-readers, typography(proces),
