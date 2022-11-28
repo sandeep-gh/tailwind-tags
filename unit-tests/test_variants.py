@@ -4,9 +4,9 @@ from tailwind_tags import *
 #          border-slate-200
 #          shadow-none
 
-# x = variant(bg/slate/"50", rv="hover")
-t = hover(bg/slate/"50")
-print(tstr(t))
+# t = variant(bg/slate/"50", text/slate/5, bd/slate/2, bsw.none, rv="disabled")
+# print(tstr(*t))c
 
-print(tstr(bg/slate/"50"
-           ))
+
+res = conc_twtags(bg/green/8, *hover(bg/green/5))
+print (res)

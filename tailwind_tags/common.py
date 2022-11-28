@@ -1,7 +1,14 @@
+import logging
+import os
+if os:
+    logger = logging.getLogger(__name__)
+    logger.setLevel(logging.DEBUG)
+    
 import sys
 from aenum import Enum
 from .colors import _ColorBase
 from addict import Dict
+import aenum
 
 class _IDivExpr:
     def __init__(self, tagstr, elabel, arg2):
@@ -43,7 +50,7 @@ class _IDivExpr:
             tmp = self.tagstr.format(val="-" + str(self.arg2))
             return tmp.replace("--", "-")
 
-        if isinstance(self.tagstr, str) and isinstance(self.arg2, Enum):
+        if isinstance(self.tagstr, str) and (isinstance(self.arg2, Enum) or isinstance(self.arg2, aenum.EnumType)) :
             if self.elabel == "noop":
 
                 return self.arg2.value
@@ -75,7 +82,10 @@ class _IDivExpr:
         if isinstance(self.tagstr, str) and (isinstance(self.arg2, int) or isinstance(self.arg2, str)):
             return (self.elabel, self.arg2)
 
-        if isinstance(self.tagstr, str) and isinstance(self.arg2, Enum):
+        if isinstance(self.tagstr, str) and (
+                isinstance(self.arg2, Enum) or
+                isinstance(self.arg2, aenum.EnumType)
+                ):
 
             if self.elabel == "noop":
                 return (self.arg2.__class__.__name__, self.arg2.name)
@@ -133,7 +143,7 @@ class TagBase:
 
 def tstr(*args, prefix=""):
     if len(args) > 0:
-        if isinstance(args[0], list):
+        if isinstance(args[0], list) or isinstance(args[0], tuple):
             raise ValueError("error in tstr argument passing")
 
     #print("=============begin tstr============")
@@ -145,7 +155,7 @@ def tstr(*args, prefix=""):
         except:
             modifier_prefix = ""
             pass
-        if isinstance(arg, Enum):
+        if isinstance(arg, Enum) or isinstance(arg, aenum.EnumType):
 
             res += f"{modifier_prefix}{prefix}" + arg.value + " "
         if isinstance(arg, _IDivExpr):
@@ -158,13 +168,13 @@ def tstr(*args, prefix=""):
     return res.strip()
 
 def remove_from_twtag_list(twsty_taglist, twsty_tag):
-    if isinstance(twsty_tag, Enum):
+    if isinstance(twsty_tag, Enum) or isinstance(twsty_tag, aenum.EnumType):
         twsty_taglist.remove(twsty_tag)
         return
 
     remove_idx = None
     for idx, _twtag in enumerate(twsty_taglist ):
-        if isinstance(_twtag, Enum):
+        if isinstance(_twtag, Enum) or isinstance(twsty_tag, aenum.EnumType):
             continue
         if twsty_tag.elabel == _twtag.elabel:
             if type(twsty_tag.tagstr) == type(_twtag.tagstr):
@@ -196,10 +206,10 @@ def add_to_twtag_list_internal(twsty_taglist, twsty_tag):
     TODO: bg/green/100, bg/opacity/50
     """
 
-    if isinstance(twsty_tag, Enum):
+    if isinstance(twsty_tag, Enum) or isinstance(twsty_tag, aenum.EnumType):
         override_pos = None
         for idx, _twtag in enumerate(twsty_taglist):
-            if isinstance(_twtag, Enum):
+            if isinstance(_twtag, Enum) or isinstance(twsty_tag, aenum.EnumType):
                 if _twtag.__class__ == twsty_tag.__class__:
                     override_pos = idx
                     break
@@ -213,27 +223,27 @@ def add_to_twtag_list_internal(twsty_taglist, twsty_tag):
     tagclass = twsty_tag.elabel
     override_pos = None
     for idx, _twtag in enumerate(twsty_taglist):
-        if isinstance(_twtag, Enum):
+        if isinstance(_twtag, Enum) or isinstance(twsty_tag, aenum.EnumType):
             continue
         #TODO: currently not handling modifier chain.
         #need better/first class handling of modifier c
-        if _twtag.modifier_chain is not None:
-            continue
         if twsty_tag.elabel == _twtag.elabel:
             if isinstance(twsty_tag.tagstr, _IDivExpr) and isinstance(_twtag.tagstr, _IDivExpr):
 
                 if twsty_tag.tagstr.elabel == _twtag.tagstr.elabel:
                     #print("found match 1; group=", twsty_tag.elabel,"/",_twtag.tagstr.elabel)
-                    override_pos = idx
+                    if twsty_tag.modifier_chain == _twtag.modifier_chain:
+                        override_pos = idx
                 else:
 
                     continue
             elif type(twsty_tag.arg2) == type(_twtag.arg2):
-
-                override_pos = idx
+                if twsty_tag.modifier_chain == _twtag.modifier_chain:
+                    override_pos = idx
 
     
     if override_pos is not None:
+        logger.debug(f"override {tstr(twsty_taglist[override_pos])} with  {tstr(twsty_tag)}")
         twsty_taglist[override_pos] = twsty_tag
         
     else:

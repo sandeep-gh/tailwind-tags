@@ -41,3 +41,4 @@ from .common import tstr, conc_twtags, hover, variant, placeholder, focus, remov
 
 from .valuetags import *
 from . import styClause
+from .utils import gradient

@@ -4,7 +4,6 @@ xl3 as
 """
 from .style_values import FontWeight as fw, BoxShadow as shdw, LineHeight as lh, FontSize as fz, DisplayBox as db
 bold = fw.bold
-shadow = shdw._
 relaxed = lh.relaxed
 base = fz._
 xl = fz.xl

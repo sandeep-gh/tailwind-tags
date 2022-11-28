@@ -21,6 +21,48 @@ class _bd(TagBase):
 
 bd = _bd()
 
+class _from(TagBase):
+    tagstr = "from-{val}"
+    tagops = []
+    taghelp = "gradient from color"
+    elabel = "from"
+
+
+from_ = _from()
+
+
+class _to(TagBase):
+    tagstr = "to-{val}"
+    tagops = []
+    taghelp = "gradient to color"
+    elabel = "to"
+
+
+to_ = _to()
+
+
+class _via(TagBase):
+    tagstr = "via-{val}"
+    tagops = []
+    taghelp = "gradient via color"
+    elabel = "via"
+
+
+via_ = _via()
+
+# class _gradient(TagBase):
+#     tagstr = "gradient-to-r"
+#     tagops = []
+#     taghelp = "gradient"
+#     elabel = "gradient"
+
+
+# gradient_ = _gradient()
+
+
+
+
+
 
 class _cc(TagBase):
     tagstr = ""
@@ -32,8 +74,28 @@ class _cc(TagBase):
 cc = _cc()
 
 
-_tw_keywords = ["container", "inherit",
-                "current", "transparent",  "first", "full", "screen", "hidden", "last", "none", "scroll", "span", "text", "visible", "auto", "group", "double", "clip", "invisible"]
+_tw_keywords = ["container",
+                "inherit",
+                "current",
+                "transparent",
+                "first",
+                "full",
+                "screen",
+                "hidden",
+                "last",
+                "none",
+                "scroll",
+                "span",
+                "text",
+                "visible",
+                "auto",
+                "group",
+                "double",
+                "clip",
+                "invisible",
+                "absolute",
+                "grow"
+                ]
 
 for kw in _tw_keywords:
     globals()[f"_{kw}"] = type(f"_{kw}", (TagBase,),
@@ -44,7 +106,10 @@ for kw in _tw_keywords:
 
 
 _tw_keywords_val = ["bg", "x", "y", "duration", "inset",
-                    "max", "min", "offset", "opacity", "order", "ring", "row", "rows", "col", "cols", "space", "span", "stroke", "gap", "outline"]
+                    "max", "min", "offset", "opacity", "order",
+                    "ring", "row", "rows", "col", "cols", "space",
+                    "span", "stroke", "gap", "outline"]
+
 for kw in _tw_keywords_val:
     globals()[f"_{kw}"] = type(f"_{kw}", (TagBase,),
 
